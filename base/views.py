@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from .models import Room, Topic, Message
-from .forms import RoomForm
+from .forms import RoomForm, UserForm
 
 
 def home(request):
@@ -161,3 +161,15 @@ def delete_message(request, pk):
         return redirect('room', pk=messages_del.room.id)
     context = {'obj': messages_del}
     return render(request, 'base/delete.html', context)
+
+@login_required(login_url='login')
+def update_user(request):
+    user = request.user
+    form = UserForm(instance=user)
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', pk=user.id)
+    context = {'form': form}
+    return render(request, 'base/update-user.html', context)
