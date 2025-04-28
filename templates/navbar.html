@@ -1,19 +1,14 @@
 <a href="/"> Logo</a>
 
-
 <form action="{% url 'home' %}" method="get">
     <input type="text" name="q" placeholder="Search Room">
 </form>
 
-{% if user.is_authenticated %}
-
-{% endif %}
-
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
     <h4>Hello {{ user.username }}</h4>
-	<a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'logout' %}">Logout</a>
 {% else %}
-	<a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'login' %}">Login</a>
 {% endif %}
 
 <hr>
